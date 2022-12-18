@@ -7,4 +7,4 @@ They are based on [this guide](https://www.linuxtechi.com/install-kubernetes-on-
 The reasons for not just creating the VMs are three-fold:
 1. The images are not easily recreatable in case I mess something up
 1. The images take up more space than a couple of script files
-1. 
+1. Provisioning new workers/experimenting on new versions is easier with 
