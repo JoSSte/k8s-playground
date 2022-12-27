@@ -11,9 +11,9 @@ Vagrant.configure(2) do |config|
 
   config.vm.box = "JoSSte/lamp"
   config.vm.box_version = "2.0.2"
-  config.vm.define vagrant_config['master']['server_name']
+  config.vm.define vagrant_config['slave']['server_name']
 
-  config.vm.network 'private_network', ip: vagrant_config['master']['public_ip']
+  config.vm.network 'private_network', ip: vagrant_config['slave']['public_ip']
 
   #increase timeout
   config.vm.boot_timeout = 2000
@@ -31,7 +31,7 @@ Vagrant.configure(2) do |config|
 
   # https://github.com/agiledivider/vagrant-hostsupdater
   if Vagrant.has_plugin?("vagrant-hostsupdater")  
-    config.hostsupdater.aliases = [vagrant_config['master']['server_name']]
+    config.hostsupdater.aliases = [vagrant_config['slave']['server_name']]
   end
 
   if Vagrant.has_plugin?("vagrant-cachier")
@@ -56,16 +56,8 @@ Vagrant.configure(2) do |config|
   # configure k8s basic setup
   config.vm.provision :shell, path: "../common/scripts/k8s-basic.sh", 
     :env => {
-      "SERVER_NAME" => vagrant_config['master']['server_name'],
-      "IP_ADDR"     => vagrant_config['master']['public_ip']
-    }
-    config.vm.provision :shell, inline: "ip addr"
-
-  # configure k8s master setup
-  config.vm.provision :shell, path: "../common/scripts/k8s-master.sh", 
-    :env => {
-      "SERVER_NAME" => vagrant_config['master']['server_name'],
-      "IP_ADDR"     => vagrant_config['master']['public_ip']
+      "SERVER_NAME" => vagrant_config['slave']['server_name'],
+      "IP_ADDR"     => vagrant_config['slave']['public_ip']
     }
     config.vm.provision :shell, inline: "ip addr"
 end

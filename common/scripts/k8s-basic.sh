@@ -51,13 +51,7 @@ sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 sudo rm /etc/containerd/config.toml
 sudo systemctl restart containerd
-sudo kubeadm init --control-plane-endpoint=$SERVER_NAME
-sudo shutdown -r now
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-kubectl cluster-info
-kubectl get nodes
+
 
 >&2 echo -e "\n * * * * * * * * * * * * * * * * * *    5    * * * * * * * * * * * * * * * * * * \n"
 
