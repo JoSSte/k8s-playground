@@ -55,5 +55,7 @@ sudo systemctl restart containerd
 
 >&2 echo -e "\n * * * * * * * * * * * * * * * * * *    5    * * * * * * * * * * * * * * * * * * \n"
 
+sudo kubeadm config images pull
+
 sudo apt-get update
 sudo apt-get upgrade -qy
