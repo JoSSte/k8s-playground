@@ -9,8 +9,7 @@ vagrant_config = YAML.load_file("#{current_dir}/../common/config.yaml")
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "JoSSte/lamp"
-  config.vm.box_version = "2.0.2"
+  config.vm.box = "ubuntu/jammy64"
   config.vm.define vagrant_config['slave']['server_name']
 
   config.vm.network 'private_network', ip: vagrant_config['slave']['public_ip']
