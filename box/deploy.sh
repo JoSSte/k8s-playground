@@ -1,3 +1,7 @@
+#!/bin/bash
+
+#script to initialize a box to use as the base for kubernetes master and workers.
+
 BOX_ID="JoSSte/k8sBasic"
 FILENAME=`echo $BOX_ID | sed -r 's/\//_/g'`
 vagrant destroy -f
