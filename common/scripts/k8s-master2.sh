@@ -9,4 +9,5 @@ kubectl apply -f calico.yaml
 kubectl get pods -n kube-system
 
 # dump listening ports
-sudo ss -ltn
+echo "checking in listening on port 6443"
+sudo ss -ltn |grep 6443

@@ -66,18 +66,19 @@ Vagrant.configure(2) do |config|
       node.vm.provision :shell, inline: "sudo hostnamectl set-hostname " + machine[:hostname]
 
       # configure k8s master setup
-      if machine[:hostname] = machines[0][:hostname]
+      if machine[:hostname] == machines[0][:hostname]
+        puts "Running MASTER script for " + machine[:hostname]
         config.vm.provision :shell, path: "common/scripts/k8s-master1.sh", 
           :env => {
             "SERVER_NAME" => machine[:hostname],
             "IP_ADDR"     => machine[:ip]
           }
         
-        if Vagrant.has_plugin?("vagrant-reload")
-          config.vm.provision :reload
-        else
-          puts "Not able to reload. please install vagrant-reload plugin (vagrant plugin install vagrant-reload)"
-        end
+        # if Vagrant.has_plugin?("vagrant-reload")
+        #   config.vm.provision :reload
+        # else
+        #   puts "Not able to reload. please install vagrant-reload plugin (vagrant plugin install vagrant-reload)"
+        # end
 
         config.vm.provision :shell, path: "common/scripts/k8s-master2.sh", 
           :env => {
