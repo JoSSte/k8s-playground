@@ -7,7 +7,6 @@ echo "if [ -f /usr/bin/screenfetch ]; then screenfetch; fi" >> ~/.bashrc
 sudo apt-get update
 sudo apt-get upgrade -qy
 sudo apt-get autoremove
-sudo hostnamectl set-hostname "$SERVER_NAME"
 sudo tee /etc/modules-load.d/containerd.conf <<EOF
 overlay
 br_netfilter

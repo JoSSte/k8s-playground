@@ -8,14 +8,14 @@ machines=[
   {
     :hostname => "k8s-master",
     :ip => "10.10.10.20",
-    :box => "ubuntu/jammy64",
+    :box => "JoSSte/k8sBasic",
     :ram => 2048,
     :cpu => 1
   },
   {
     :hostname => "k8s-worker001",
     :ip => "10.10.10.21",
-    :box => "ubuntu/jammy64",
+    :box => "JoSSte/k8sBasic",
     :ram => 2048,
     :cpu => 1
   }
