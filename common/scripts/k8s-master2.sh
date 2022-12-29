@@ -7,3 +7,6 @@ kubectl apply -f calico.yaml
 
 # check status -can be omitted
 kubectl get pods -n kube-system
+
+# dump listening ports
+sudo ss -ltn
