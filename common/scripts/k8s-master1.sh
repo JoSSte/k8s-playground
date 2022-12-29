@@ -5,5 +5,5 @@ sudo ss -ltn |grep 6443
 
 echo "Copying kube config"
 mkdir -p /home/vagrant/.kube
-sudo \\cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+sudo cp /etc/kubernetes/admin.conf /home/vagrant/.kube/config
 sudo chown 1000:1000 /home/vagrant/.kube/config
