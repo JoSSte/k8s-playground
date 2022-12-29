@@ -4,6 +4,8 @@
 
 
 current_dir    = File.dirname(File.expand_path(__FILE__))
+
+# machines. Master must be the first one (conditional statement below)
 machines=[
   {
     :hostname => "k8s-master",
@@ -63,14 +65,27 @@ Vagrant.configure(2) do |config|
       end
       node.vm.provision :shell, inline: "sudo hostnamectl set-hostname " + machine[:hostname]
 
-    #
-    #  # configure k8s master setup
-    #  config.vm.provision :shell, path: "common/scripts/k8s-master.sh", 
-    #    :env => {
-    #      "SERVER_NAME" => machine[0],
-    #      "IP_ADDR"     => machine[1]
-    #    }
-    #    
+      # configure k8s master setup
+      if machine[:hostname] = machines[0][:hostname]
+        config.vm.provision :shell, path: "common/scripts/k8s-master1.sh", 
+          :env => {
+            "SERVER_NAME" => machine[:hostname],
+            "IP_ADDR"     => machine[:ip]
+          }
+        
+        if Vagrant.has_plugin?("vagrant-reload")
+          config.vm.provision :reload
+        else
+          puts "Not able to reload. please install vagrant-reload plugin"
+        end
+
+        config.vm.provision :shell, path: "common/scripts/k8s-master2.sh", 
+          :env => {
+            "SERVER_NAME" => machine[:hostname],
+            "IP_ADDR"     => machine[:ip]
+          }
+      end
+
     end
   end
 end
