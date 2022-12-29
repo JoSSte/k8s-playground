@@ -67,7 +67,7 @@ Vagrant.configure(2) do |config|
 
       # configure k8s master setup
       if machine[:hostname] == machines[0][:hostname]
-        puts "Running MASTER script for " + machine[:hostname]
+        #puts "Running MASTER script for " + machine[:hostname]
         config.vm.provision :shell, path: "common/scripts/k8s-master1.sh", 
           :env => {
             "SERVER_NAME" => machine[:hostname],
