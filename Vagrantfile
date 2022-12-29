@@ -61,7 +61,7 @@ Vagrant.configure(2) do |config|
         }
         # For more information please check http://docs.vagrantup.com/v2/synced-folders/basic_usage.html
       end
-      node.provision :shell, inline: "sudo hostnamectl set-hostname "$SERVER_NAME""
+      node.vm.provision :shell, inline: "sudo hostnamectl set-hostname " + machine[:hostname]
 
     #
     #  # configure k8s master setup
