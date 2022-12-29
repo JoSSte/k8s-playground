@@ -76,7 +76,7 @@ Vagrant.configure(2) do |config|
         if Vagrant.has_plugin?("vagrant-reload")
           config.vm.provision :reload
         else
-          puts "Not able to reload. please install vagrant-reload plugin"
+          puts "Not able to reload. please install vagrant-reload plugin (vagrant plugin install vagrant-reload)"
         end
 
         config.vm.provision :shell, path: "common/scripts/k8s-master2.sh", 
