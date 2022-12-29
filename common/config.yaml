@@ -1,6 +1,0 @@
-master:
-  public_ip:    '10.10.10.20'
-  server_name:  'k8s-master'
-slave:
-  public_ip:    '10.10.10.21'
-  server_name:  'k8s-slave'
