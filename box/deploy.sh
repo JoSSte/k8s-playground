@@ -1,13 +1,23 @@
 #!/bin/bash
 
-#script to initialize a box to use as the base for kubernetes master and workers.
+# Script to initialize a box to use as the base for kubernetes master and workers.
 
 BOX_ID="JoSSte/k8sBasic"
-FILENAME=`echo $BOX_ID | sed -r 's/\//_/g'`
+BOX_FILENAME=`echo $BOX_ID | sed -r 's/\//_/g'`
 vagrant destroy -f
 set -e
-vagrant up # Start the box and run any defined scripts
-vagrant package --output ${FILENAME}.box # Store the virtual machine with all the software installed into a box file.
-vagrant box add --force "${BOX_ID}" ${FILENAME}.box # Add the box to the vagrant repo using the given id.
-vagrant destroy -f # Stop the vagrant instance
-rm ${FILENAME}.box # Remove the file 
+
+# Start the box
+vagrant up
+
+# Store the virtual machine with all the software installed into a box file.
+vagrant package --output ${BOX_FILENAME}.box
+
+# Add the box to the vagrant repo using the given id. --force is because we are reusing the ID.
+vagrant box add --force "${BOX_ID}" ${BOX_FILENAME}.box
+
+# Stop the vagrant instance to conserve disk space
+vagrant destroy -f 
+
+# Remove the file to save disk space
+rm ${BOX_FILENAME}.box
