@@ -10,20 +10,34 @@ machines=[
   {
     :hostname => "k8s-master",
     :ip => "10.10.10.20",
-    :box => "JoSSte/k8sBasic",
+    :box => "ubuntu/jammy64",
     :ram => 2048,
     :cpu => 1
   },
   {
     :hostname => "k8s-worker001",
     :ip => "10.10.10.21",
-    :box => "JoSSte/k8sBasic",
+    :box => "ubuntu/jammy64",
+    :ram => 2048,
+    :cpu => 1
+  },
+  {
+    :hostname => "k8s-worker002",
+    :ip => "10.10.10.22",
+    :box => "ubuntu/jammy64",
     :ram => 2048,
     :cpu => 1
   }
 ]
 
 Vagrant.configure(2) do |config|
+  
+  # create hosts config for /etc/hosts
+  hosts=""
+  machines.each do |host|
+    hosts=hosts+"\n"+ host[:ip] + "\t" + host[:hostname]
+  end
+
   machines.each do |machine|
     config.vm.define machine[:hostname] do |node|
     
@@ -64,6 +78,7 @@ Vagrant.configure(2) do |config|
         # For more information please check http://docs.vagrantup.com/v2/synced-folders/basic_usage.html
       end
       node.vm.provision :shell, inline: "sudo hostnamectl set-hostname " + machine[:hostname]
+      node.vm.provision :shell, inline: "sudo echo " + hosts + " >> /etc/hosts"   
 
       # configure k8s master setup
       if machine[:hostname] == machines[0][:hostname]
@@ -73,18 +88,8 @@ Vagrant.configure(2) do |config|
             "SERVER_NAME" => machine[:hostname],
             "IP_ADDR"     => machine[:ip]
           }
-        
-        # if Vagrant.has_plugin?("vagrant-reload")
-        #   config.vm.provision :reload
-        # else
-        #   puts "Not able to reload. please install vagrant-reload plugin (vagrant plugin install vagrant-reload)"
-        # end
-
-        config.vm.provision :shell, path: "common/scripts/k8s-master2.sh", 
-          :env => {
-            "SERVER_NAME" => machine[:hostname],
-            "IP_ADDR"     => machine[:ip]
-          }
+      else
+      
       end
 
     end
