@@ -82,7 +82,7 @@ Vagrant.configure(2) do |config|
       node.vm.provision :shell, inline: "sudo echo " + hosts + " >> /etc/hosts"   
 
       # configure k8s master setup
-      if machine[:hostname] == machines[0][:hostname]
+      if machine[:hostname] == "sudo hostnamectl set-hostname " + machines[0][:hostname]
         #puts "Running MASTER script for " + machine[:hostname]
         config.vm.provision :shell, path: "common/scripts/k8s-master1.sh", 
           :env => {
