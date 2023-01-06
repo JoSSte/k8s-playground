@@ -13,15 +13,15 @@ machines=[
     :box => "ubuntu/jammy64",
     :ram => 2048,
     :cpu => 1
-  }
-  ,{
+  },
+  {
     :hostname => "k8s-worker001",
     :ip => "10.10.10.21",
     :box => "ubuntu/jammy64",
     :ram => 2048,
     :cpu => 1
-  }
-  ,{
+  },
+  {
     :hostname => "k8s-worker002",
     :ip => "10.10.10.22",
     :box => "ubuntu/jammy64",
