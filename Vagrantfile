@@ -13,15 +13,15 @@ machines=[
     :box => "ubuntu/jammy64",
     :ram => 2048,
     :cpu => 1
-  },
-  {
+  }
+  ,{
     :hostname => "k8s-worker001",
     :ip => "10.10.10.21",
     :box => "ubuntu/jammy64",
     :ram => 2048,
     :cpu => 1
-  },
-  {
+  }
+  ,{
     :hostname => "k8s-worker002",
     :ip => "10.10.10.22",
     :box => "ubuntu/jammy64",
@@ -41,7 +41,8 @@ Vagrant.configure(2) do |config|
   machines.each do |machine|
     config.vm.define machine[:hostname] do |node|
     
-      node.vm.box = machine[:box]
+      node.vm.box = "generic/ubuntu2204"
+      #node.vm.box = machine[:box]
       node.vm.hostname = machine[:hostname]
       node.vm.network "private_network", ip: machine[:ip]
       node.vm.provider "virtualbox" do |vb|
