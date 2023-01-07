@@ -79,10 +79,11 @@ Vagrant.configure(2) do |config|
         # For more information please check http://docs.vagrantup.com/v2/synced-folders/basic_usage.html
       end
       node.vm.provision :shell, inline: "sudo hostnamectl set-hostname " + machine[:hostname]
-      node.vm.provision :shell, inline: "sudo echo " + hosts + " >> /etc/hosts"   
+      node.vm.provision :shell, inline: "sudo cat > /etc/hosts<< EOF\n" + hosts + "\nEOF"
+      node.vm.provision :shell, inline: "cat /etc/hosts"
 
       # configure k8s master setup
-      if machine[:hostname] == "sudo hostnamectl set-hostname " + machines[0][:hostname]
+      if machine[:hostname] == machines[0][:hostname]
         #puts "Running MASTER script for " + machine[:hostname]
         config.vm.provision :shell, path: "common/scripts/k8s-master1.sh", 
           :env => {
