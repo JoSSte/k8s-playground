@@ -2,3 +2,4 @@
 common/shared/config*
 common/shared/cluster.json
 common/shared/node-token.txt
+common/shared/hosts
