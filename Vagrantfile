@@ -21,7 +21,7 @@ machines=[
     :hostname => "k8s-worker001",
     :ip => "10.10.10.21",
     :box => "ubuntu/jammy64",
-    :ram => 2048,
+    :ram => 1024,
     :cpu => 1,
     :autostart => false
   },
@@ -29,7 +29,15 @@ machines=[
     :hostname => "k8s-worker002",
     :ip => "10.10.10.22",
     :box => "ubuntu/jammy64",
-    :ram => 2048,
+    :ram => 1024,
+    :cpu => 1,
+    :autostart => false
+  },
+  {
+    :hostname => "k8s-worker003",
+    :ip => "10.10.10.23",
+    :box => "ubuntu/jammy64",
+    :ram => 1024,
     :cpu => 1,
     :autostart => false
   }
