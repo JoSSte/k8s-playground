@@ -68,6 +68,7 @@ Vagrant.configure(2) do |config|
 
     mnode.vm.provision :shell, inline: "sudo hostnamectl set-hostname " + master_machine[:hostname]
     mnode.vm.provision :shell, inline: "sudo cat > /etc/hosts<< EOF\n" + hosts + "\nEOF"
+    mnode.vm.provision :shell, inline: "sudo cat > /tmp/shared/hosts<< EOF\n" + hosts + "\nEOF"
     mnode.vm.provision :shell, inline: "cat /etc/hosts"
 
     mnode.vm.provision :shell, path: "common/scripts/k8s-master1.sh", 
@@ -107,8 +108,9 @@ Vagrant.configure(2) do |config|
         #puts " ⚒ 🛠 🔨 running worker scripts"
         node.vm.provision :shell, path: "common/scripts/k8s-worker.sh", 
           :env => {
-            "SERVER_NAME" => machine[:hostname],
-            "IP_ADDR"     => machine[:ip]
+            "SERVER_NAME"         => machine[:hostname],
+            "IP_ADDR"             => machine[:ip],
+            "MASTER_SERVER_NAME"  => master_machine[:hostname]
           }
     end
   end
