@@ -16,6 +16,6 @@ echo " * * Dump cluster config to shared folder"
 kubectl cluster-info dump > /tmp/shared/cluster.json
 
 echo " * * Dump token to shared folder"
-sudo cat /var/lib/rancher/k3s/server/node-token /tmp/shared/node-token.txt
+sudo cat /var/lib/rancher/k3s/server/node-token > /tmp/shared/node-token.txt
 
 echo " ¤ ¤ ¤ END MASTER SCRIPT [$HOSTNAME] ¤ ¤ ¤"
