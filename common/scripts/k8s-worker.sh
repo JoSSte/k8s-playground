@@ -11,3 +11,7 @@ curl -sfL https://get.k3s.io | K3S_URL=https://$MASTER_SERVER_NAME:6443 K3S_TOKE
 
 sudo chown vagrant:vagrant "$KUBECONFIG"
 sudo chmod 600 "$KUBECONFIG"
+
+echo " * * mark $HOSTNAME as worker node"
+kubectl label node $HOSTNAME node-role.kubernetes.io/worker=worker
+

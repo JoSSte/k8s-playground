@@ -18,4 +18,7 @@ kubectl cluster-info dump > /tmp/shared/cluster.json
 echo " * * Dump token to shared folder"
 sudo cat /var/lib/rancher/k3s/server/node-token > /tmp/shared/node-token.txt
 
+echo " * * mark $HOSTNAME as worker"
+kubectl label node $HOSTNAME node-role.kubernetes.io/worker=worker
+
 echo " ¤ ¤ ¤ END MASTER SCRIPT [$HOSTNAME] ¤ ¤ ¤"
