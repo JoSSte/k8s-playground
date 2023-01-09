@@ -12,22 +12,25 @@ machines=[
     :ip => "10.10.10.20",
     :box => "ubuntu/jammy64",
     :ram => 2048,
-    :cpu => 1
+    :cpu => 1,
+    :autostart => true
   },
   {
     :hostname => "k8s-worker001",
     :ip => "10.10.10.21",
     :box => "ubuntu/jammy64",
     :ram => 2048,
-    :cpu => 1
-  },
-  {
-    :hostname => "k8s-worker002",
-    :ip => "10.10.10.22",
-    :box => "ubuntu/jammy64",
-    :ram => 2048,
-    :cpu => 1
-  }
+    :cpu => 1,
+    :autostart => false
+  }#,
+  #{
+  #  :hostname => "k8s-worker002",
+  #  :ip => "10.10.10.22",
+  #  :box => "ubuntu/jammy64",
+  #  :ram => 2048,
+  #  :cpu => 1,
+  #  :autostart => false
+  #}
 ]
 
 Vagrant.configure(2) do |config|
@@ -39,7 +42,7 @@ Vagrant.configure(2) do |config|
   end
 
   machines.each do |machine|
-    config.vm.define machine[:hostname] do |node|
+    config.vm.define machine[:hostname], autostart: machine[:autostart] do |node|
     
       node.vm.box = "generic/ubuntu2204"
       #node.vm.box = machine[:box]
@@ -49,7 +52,8 @@ Vagrant.configure(2) do |config|
         vb.customize ["modifyvm", :id, "--memory", machine[:ram]]
         #config.vbguest.auto_update = false
       end
-    
+      config.vm.synced_folder "./common/shared/", "/tmp/shared", create: true,
+        owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=664"]
       #increase timeout
       node.vm.boot_timeout = 2000
 
@@ -91,8 +95,12 @@ Vagrant.configure(2) do |config|
             "IP_ADDR"     => machine[:ip]
           }
       else
-      
+        # TODO: do worker-only stuff here
+        # copy kubeconfig
+        # token from master?
       end
+
+      
 
     end
   end
