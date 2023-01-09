@@ -22,15 +22,15 @@ machines=[
     :ram => 2048,
     :cpu => 1,
     :autostart => false
-  }#,
-  #{
-  #  :hostname => "k8s-worker002",
-  #  :ip => "10.10.10.22",
-  #  :box => "ubuntu/jammy64",
-  #  :ram => 2048,
-  #  :cpu => 1,
-  #  :autostart => false
-  #}
+  },
+  {
+    :hostname => "k8s-worker002",
+    :ip => "10.10.10.22",
+    :box => "ubuntu/jammy64",
+    :ram => 2048,
+    :cpu => 1,
+    :autostart => false
+  }
 ]
 
 Vagrant.configure(2) do |config|
@@ -88,13 +88,19 @@ Vagrant.configure(2) do |config|
 
       # configure k8s master setup
       if machine[:hostname] == machines[0][:hostname]
-        #puts "Running MASTER script for " + machine[:hostname]
+        puts " * * * Running MASTER script for " + machine[:hostname]
         config.vm.provision :shell, path: "common/scripts/k8s-master1.sh", 
           :env => {
             "SERVER_NAME" => machine[:hostname],
             "IP_ADDR"     => machine[:ip]
           }
       else
+        puts " * * * runnig worker scripts"
+        config.vm.provision :shell, path: "common/scripts/k8s-worker.sh", 
+          :env => {
+            "SERVER_NAME" => machine[:hostname],
+            "IP_ADDR"     => machine[:ip]
+          }
         # TODO: do worker-only stuff here
         # copy kubeconfig
         # token from master?

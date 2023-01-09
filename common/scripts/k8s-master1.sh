@@ -1,3 +1,5 @@
+echo " ¤ ¤ ¤ MASTER SCRIPT ¤ ¤ ¤👨‍✈️"
+
 sudo curl -sfL https://get.k3s.io | sh - 
 export KUBECONFIG=/home/vagrant/.kube/config
 echo -e "\nexport KUBECONFIG=$KUBECONFIG\n" >> /home/vagrant/.bashrc
