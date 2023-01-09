@@ -14,6 +14,7 @@ master_machine = {
   :cpu => 1,
   :autostart => true
 }
+
 # workers
 machines=[
   {
@@ -44,19 +45,19 @@ Vagrant.configure(2) do |config|
   end
 
   # Master machone
-  config.vm.define master_machine[:hostname], autostart: master_machine[:autostart] do |node|
-    node.vm.box = "generic/ubuntu2204"
-    #node.vm.box = master_machine[:box]
-    node.vm.hostname = master_machine[:hostname]
-    node.vm.network "private_network", ip: master_machine[:ip]
-    node.vm.provider "virtualbox" do |vb|
+  config.vm.define master_machine[:hostname], autostart: master_machine[:autostart] do |mnode|
+    mnode.vm.box = "generic/ubuntu2204"
+    #mnode.vm.box = master_machine[:box]
+    mnode.vm.hostname = master_machine[:hostname]
+    mnode.vm.network "private_network", ip: master_machine[:ip]
+    mnode.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", master_machine[:ram]]
       #config.vbguest.auto_update = false
     end
     config.vm.synced_folder "./common/shared/", "/tmp/shared", create: true,
       owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=664"]
     #increase timeout
-    node.vm.boot_timeout = 2000
+    mnode.vm.boot_timeout = 2000
 
     # config.vm.post_up_message = ""
   
@@ -65,11 +66,11 @@ Vagrant.configure(2) do |config|
       config.hostsupdater.aliases = [master_machine[:hostname]]
     end
 
-    node.vm.provision :shell, inline: "sudo hostnamectl set-hostname " + master_machine[:hostname]
-    node.vm.provision :shell, inline: "sudo cat > /etc/hosts<< EOF\n" + hosts + "\nEOF"
-    node.vm.provision :shell, inline: "cat /etc/hosts"
+    mnode.vm.provision :shell, inline: "sudo hostnamectl set-hostname " + master_machine[:hostname]
+    mnode.vm.provision :shell, inline: "sudo cat > /etc/hosts<< EOF\n" + hosts + "\nEOF"
+    mnode.vm.provision :shell, inline: "cat /etc/hosts"
 
-    config.vm.provision :shell, path: "common/scripts/k8s-master1.sh", 
+    mnode.vm.provision :shell, path: "common/scripts/k8s-master1.sh", 
       :env => {
         "SERVER_NAME" => master_machine[:hostname],
         "IP_ADDR"     => master_machine[:ip]
@@ -87,7 +88,7 @@ Vagrant.configure(2) do |config|
         vb.customize ["modifyvm", :id, "--memory", machine[:ram]]
         #config.vbguest.auto_update = false
       end
-      config.vm.synced_folder "./common/shared/", "/tmp/shared", create: true,
+      node.vm.synced_folder "./common/shared/", "/tmp/shared", create: true,
         owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=664"]
       #increase timeout
       node.vm.boot_timeout = 2000
@@ -104,7 +105,7 @@ Vagrant.configure(2) do |config|
       node.vm.provision :shell, inline: "cat /etc/hosts"
 
         #puts " ⚒ 🛠 🔨 running worker scripts"
-        config.vm.provision :shell, path: "common/scripts/k8s-worker.sh", 
+        node.vm.provision :shell, path: "common/scripts/k8s-worker.sh", 
           :env => {
             "SERVER_NAME" => machine[:hostname],
             "IP_ADDR"     => machine[:ip]

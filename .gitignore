@@ -1,2 +1,4 @@
 **/.vagrant/
-common/shared/config
+common/shared/config*
+common/shared/cluster.json
+common/shared/node-token.txt
