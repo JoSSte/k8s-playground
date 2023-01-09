@@ -19,3 +19,4 @@ The reasons for not just creating the VMs are three-fold:
 ## Links and resources
 * https://www.serverlab.ca/tutorials/virtualization/how-to-auto-upgrade-virtualbox-guest-additions-with-vagrant/
 * https://docs.k3s.io/quick-start 
+* https://theselfhostingblog.com/posts/setting-up-a-kubernetes-cluster-using-raspberry-pis-k3s-and-portainer/
